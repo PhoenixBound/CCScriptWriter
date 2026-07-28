@@ -358,6 +358,8 @@ class CCScriptWriter:
                 i += 1
             self.pointers.append(FromSNES(address))
         for p in MOVEMENT_POINTERS:
+            # The "queue text" ASM at C0A88D expects to see the address with the high word first,
+            # then the low word. FromSNES needs the bytes of the low word first.
             address = bytearray(self.data[p+2:p+4])
             address.extend(self.data[p+0:p+2])
             address_str = ' '.join([FormatHex(a) for a in address])
